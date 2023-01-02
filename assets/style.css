@@ -35,6 +35,14 @@ button {
   font-size: 50px;
 }
 
+.answer-btn {
+  text-align: left;
+}
+
+.result {
+  margin-top: 20px;
+}
+
 .hidden {
   display: none;
 }

@@ -8,22 +8,28 @@
   margin: 0;
 }
 
-.question-area {
+.quiz-area {
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
-.btn {
+button {
   padding: 10px;
   font-size: 30px;
   background-color: var(--main);
   color: white;
   border-radius: 5px;
   border: none;
+  margin-top: 10px;
 }
 
 .start-btn {
   font-size: 50px;
+}
+
+.hidden {
+  display: none;
 }

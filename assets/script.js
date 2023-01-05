@@ -110,6 +110,7 @@ function checkResult(choice, correctAnswer) {
   if (choice.includes(correctAnswer)) {
     score++;
     console.log(score);
+
     return true;
   } else return false;
 }
@@ -140,6 +141,22 @@ function createEndScreen() {
   var displayScore = document.createElement("p");
   displayScore.textContent = `Your score is ${score}`;
   quizArea.appendChild(displayScore);
+
+  var submitScore = document.createElement("form");
+  quizArea.appendChild(submitScore);
+
+  var label = document.createElement("label");
+  label.textContent = "Enter your initials: ";
+  submitScore.appendChild(label);
+
+  var scoreInput = document.createElement("input");
+  scoreInput.setAttribute("type", "text");
+  submitScore.appendChild(scoreInput);
+
+  var submitBtn = document.createElement("button");
+  submitBtn.setAttribute("type", "submit");
+  submitBtn.textContent = "Save Score";
+  submitScore.appendChild(submitBtn);
 }
 
 startButton.addEventListener("click", generateQuestion);

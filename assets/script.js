@@ -4,6 +4,10 @@ var questionArea = document.querySelector(".question-area");
 var result = document.querySelector(".result");
 var score = 0;
 
+// retrieve list of scores from local storage
+var scores = JSON.parse(localStorage.getItem("savedScores"));
+if (scores == null) scores = [];
+
 // questions as objects
 var q1 = {
   question: "Commonly used data types do NOT include:",
@@ -149,14 +153,26 @@ function createEndScreen() {
   label.textContent = "Enter your initials: ";
   submitScore.appendChild(label);
 
-  var scoreInput = document.createElement("input");
-  scoreInput.setAttribute("type", "text");
-  submitScore.appendChild(scoreInput);
+  var inputInitials = document.createElement("input");
+  inputInitials.setAttribute("type", "text");
+  submitScore.appendChild(inputInitials);
 
   var submitBtn = document.createElement("button");
   submitBtn.setAttribute("type", "submit");
   submitBtn.textContent = "Save Score";
   submitScore.appendChild(submitBtn);
+
+  submitBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    var savedScore = {
+      initials: inputInitials.value,
+      myScore: score,
+    };
+    localStorage.setItem("savedScore", JSON.stringify(savedScore));
+    scores.push(savedScore);
+    localStorage.setItem("savedScores", JSON.stringify(scores));
+  });
 }
 
 startButton.addEventListener("click", generateQuestion);
+localStorage.clear();

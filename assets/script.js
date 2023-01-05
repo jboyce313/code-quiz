@@ -4,6 +4,7 @@ var questionArea = document.querySelector(".question-area");
 var result = document.querySelector(".result");
 var viewHighScores = document.querySelector(".view-high-scores");
 var score = 0;
+var highScoresDisplayed = false;
 
 // retrieve list of scores from local storage
 var scores = JSON.parse(localStorage.getItem("savedScores"));
@@ -188,7 +189,14 @@ function createEndScreen() {
 }
 
 function displayHighScores() {
-  sortedScores = JSON.parse(localStorage.getItem("savedScores"));
+  // check to see if high scores are already displayed
+  if (highScoresDisplayed === true) return;
+
+  scores = JSON.parse(localStorage.getItem("savedScores"));
+
+  // sort scores
+  sortedScores = scores.sort((a, b) => (a.myScore > b.myScore ? 1 : -1));
+
   var highScoresTitle = document.createElement("h2");
   highScoresTitle.textContent = "High Scores";
   quizArea.appendChild(highScoresTitle);
@@ -199,6 +207,7 @@ function displayHighScores() {
     }`;
     quizArea.appendChild(scoreListItem);
   }
+  highScoresDisplayed = true;
 }
 
 startButton.addEventListener("click", generateQuestion);

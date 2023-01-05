@@ -2,6 +2,7 @@ var startButton = document.querySelector(".start-btn");
 var quizArea = document.querySelector(".quiz-area");
 var questionArea = document.querySelector(".question-area");
 var result = document.querySelector(".result");
+var viewHighScores = document.querySelector(".view-high-scores");
 var score = 0;
 
 // retrieve list of scores from local storage
@@ -201,4 +202,13 @@ function displayHighScores() {
 }
 
 startButton.addEventListener("click", generateQuestion);
+viewHighScores.addEventListener("click", function () {
+  if (!questionArea.classList.contains("hidden")) {
+    questionArea.classList.add("hidden");
+  }
+  if (!startButton.classList.contains("hidden")) {
+    startButton.classList.add("hidden");
+  }
+  displayHighScores();
+});
 // localStorage.clear();

@@ -7,24 +7,36 @@ var result = document.querySelector(".result");
 var q1 = {
   question: "Commonly used data types do NOT include:",
   answers: ["numbers", "strings", "booleans", "alerts"],
-  //   a1: "numbers",
-  //   a2: "strings",
-  //   a3: "booleans",
-  //   a4: "alerts",
   correctAnswer: "alerts",
 };
 var q2 = {
   question: "The condition for an if/then statement is enclosed in:",
   answers: ["brackets", "curly braces", "parentheses", "slashes"],
-  //   a1: "brackets",
-  //   a2: "curly braces",
-  //   a3: "parentheses",
-  //   a4: "slashes",
   correctAnswer: "parentheses",
+};
+var q3 = {
+  question: "How can you succintly increase the value of i by 1?",
+  answers: ["i + 1;", "i++;", "i >= 1;", "i+;"],
+  correctAnswer: "i++;",
+};
+var q4 = {
+  question: "What does HTML stand for?",
+  answers: [
+    "Hypertext Markdown Language",
+    "High Tolerance Markup Language",
+    "Hypertext Markup Language",
+    "Hoisted Text Markup Language",
+  ],
+  correctAnswer: "Hypertext Markup Language",
+};
+var q5 = {
+  question: "Which is not a part of the box model?",
+  answers: ["margin", "display", "content", "padding"],
+  correctAnswer: "display",
 };
 
 // array of question objects
-var questions = [q1, q2];
+var questions = [q1, q2, q3, q4, q5];
 // tracks which question user is on
 questionNumber = 0;
 

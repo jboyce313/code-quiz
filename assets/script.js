@@ -164,15 +164,41 @@ function createEndScreen() {
 
   submitBtn.addEventListener("click", function (e) {
     e.preventDefault();
+
+    // create new saved score object
     var savedScore = {
       initials: inputInitials.value,
       myScore: score,
     };
+
+    // update local storage with new saved score
     localStorage.setItem("savedScore", JSON.stringify(savedScore));
     scores.push(savedScore);
     localStorage.setItem("savedScores", JSON.stringify(scores));
+
+    // clear end screen
+    allDoneText.remove();
+    displayScore.remove();
+    submitScore.remove();
+
+    // display high scores
+    displayHighScores();
   });
 }
 
+function displayHighScores() {
+  sortedScores = JSON.parse(localStorage.getItem("savedScores"));
+  var highScoresTitle = document.createElement("h2");
+  highScoresTitle.textContent = "High Scores";
+  quizArea.appendChild(highScoresTitle);
+  for (var i = 0; i < sortedScores.length; i++) {
+    var scoreListItem = document.createElement("p");
+    scoreListItem.textContent = `${i + 1}.  ${sortedScores[i].initials} --  ${
+      sortedScores[i].myScore
+    }`;
+    quizArea.appendChild(scoreListItem);
+  }
+}
+
 startButton.addEventListener("click", generateQuestion);
-localStorage.clear();
+// localStorage.clear();

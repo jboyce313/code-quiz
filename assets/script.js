@@ -23,7 +23,7 @@ var q2 = {
   correctAnswer: "parentheses",
 };
 var q3 = {
-  question: "How can you succintly increase the value of i by 1?",
+  question: "How can you succinctly increase the value of i by 1?",
   answers: ["i + 1;", "i++;", "i >= 1;", "i+;"],
   correctAnswer: "i++;",
 };

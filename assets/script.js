@@ -5,7 +5,7 @@ var result = document.querySelector(".result");
 var viewHighScores = document.querySelector(".view-high-scores");
 var score = 0;
 var highScoresDisplayed = false;
-var secondsLeft = 10;
+var secondsLeft = 45;
 
 // retrieve list of scores from local storage
 var scores = JSON.parse(localStorage.getItem("savedScores"));
@@ -27,24 +27,66 @@ var q3 = {
   answers: ["i + 1;", "i++;", "i >= 1;", "i+;"],
   correctAnswer: "i++;",
 };
-// var q4 = {
-//   question: "What does HTML stand for?",
-//   answers: [
-//     "Hypertext Markdown Language",
-//     "High Tolerance Markup Language",
-//     "Hypertext Markup Language",
-//     "Hoisted Text Markup Language",
-//   ],
-//   correctAnswer: "Hypertext Markup Language",
-// };
-// var q5 = {
-//   question: "Which is not a part of the box model?",
-//   answers: ["margin", "display", "content", "padding"],
-//   correctAnswer: "display",
-// };
+var q4 = {
+  question: "What does HTML stand for?",
+  answers: [
+    "Hypertext Markdown Language",
+    "High Tolerance Markup Language",
+    "Hypertext Markup Language",
+    "Hoisted Text Markup Language",
+  ],
+  correctAnswer: "Hypertext Markup Language",
+};
+var q5 = {
+  question: "Which is not a part of the box model?",
+  answers: ["margin", "display", "content", "padding"],
+  correctAnswer: "display",
+};
+var q6 = {
+  question: "What is the most current verstion of HTML?",
+  answers: ["3", "10", "7", "5"],
+  correctAnswer: "5",
+};
+var q7 = {
+  question: "What is a good tool for debugging?",
+  answers: ["console.log()", "git", "terminal", "while loop"],
+  correctAnswer: "console.log()",
+};
+var q8 = {
+  question: "Which correctly sets the margin on the left to 10 pixels?",
+  answers: [
+    "margin: left 10px;",
+    "margin-left: 10px;",
+    "left-margin: 10;",
+    "margin-left: 10;",
+  ],
+  correctAnswer: "margin-left: 10px;",
+};
+var q9 = {
+  question:
+    "How would you access the number of elements in an array named members?",
+  answers: [
+    "members.length",
+    "lengthOf(members)",
+    "members.size",
+    "numberOf(members)",
+  ],
+  correctAnswer: "members.length",
+};
+var q10 = {
+  question: "Where does the script tag go?",
+  answers: [
+    "Just before the closing body tag",
+    "In the header",
+    "In the CSS file",
+    "Just after the opening body tag",
+  ],
+  correctAnswer: "Just before the closing body tag",
+};
 
 // array of question objects
-var questions = [q1, q2, q3];
+var questions = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10];
+
 // tracks which question user is on
 questionNumber = 0;
 
@@ -144,6 +186,7 @@ function clearQuestionArea() {
 
 function createEndScreen() {
   var allDoneText = document.createElement("h2");
+  allDoneText.classList.add(".all-done");
   allDoneText.textContent = "All done!";
   allDoneText.style.marginBottom = "10px";
   quizArea.appendChild(allDoneText);
@@ -260,19 +303,23 @@ function displayHighScores() {
 
 function runTimer() {
   var timerInterval = setInterval(function () {
-    secondsLeft--;
-    document.querySelector(
-      ".timer"
-    ).textContent = `Time remaing: ${secondsLeft}`;
-
-    if (questionNumber === questions.length) clearInterval(timerInterval);
-
-    if (secondsLeft === 0) {
+    if (questionNumber === questions.length) {
       clearInterval(timerInterval);
-      clearQuestionArea();
-      if (document.querySelector(".result"))
-        document.querySelector(".result").remove();
-      createEndScreen();
+    } else {
+      secondsLeft--;
+      document.querySelector(
+        ".timer"
+      ).textContent = `Time remaing: ${secondsLeft}`;
+
+      if (questionNumber === questions.length) clearInterval(timerInterval);
+
+      if (secondsLeft === 0) {
+        clearInterval(timerInterval);
+        clearQuestionArea();
+        if (document.querySelector(".result"))
+          document.querySelector(".result").remove();
+        createEndScreen();
+      }
     }
   }, 1000);
 }

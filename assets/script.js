@@ -5,6 +5,7 @@ var result = document.querySelector(".result");
 var viewHighScores = document.querySelector(".view-high-scores");
 var score = 0;
 var highScoresDisplayed = false;
+var secondsLeft = 10;
 
 // retrieve list of scores from local storage
 var scores = JSON.parse(localStorage.getItem("savedScores"));
@@ -257,7 +258,29 @@ function displayHighScores() {
   });
 }
 
-startButton.addEventListener("click", generateQuestion);
+function runTimer() {
+  var timerInterval = setInterval(function () {
+    secondsLeft--;
+    document.querySelector(
+      ".timer"
+    ).textContent = `Time remaing: ${secondsLeft}`;
+
+    if (questionNumber === questions.length) clearInterval(timerInterval);
+
+    if (secondsLeft === 0) {
+      clearInterval(timerInterval);
+      clearQuestionArea();
+      if (document.querySelector(".result"))
+        document.querySelector(".result").remove();
+      createEndScreen();
+    }
+  }, 1000);
+}
+
+startButton.addEventListener("click", function () {
+  generateQuestion();
+  runTimer();
+});
 viewHighScores.addEventListener("click", function () {
   if (!questionArea.classList.contains("hidden")) {
     questionArea.classList.add("hidden");
@@ -266,4 +289,5 @@ viewHighScores.addEventListener("click", function () {
     startButton.classList.add("hidden");
   }
   displayHighScores();
+  questionNumber = questions.length; // trip condition to stop timer
 });

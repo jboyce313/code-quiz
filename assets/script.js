@@ -55,7 +55,8 @@ var generateQuestion = function () {
   // checks if at end of game. If so, display end game display, else continue with game
   if (questionNumber === questions.length) {
     clearQuestionArea();
-    document.querySelector(".result").remove();
+    if (document.querySelector(".result"))
+      document.querySelector(".result").remove();
     createEndScreen();
   } else {
     var question = questions[questionNumber];
@@ -132,7 +133,8 @@ function nextQuestion(isCorrect) {
 }
 
 function clearQuestionArea() {
-  document.querySelector(".question").remove();
+  if (document.querySelector(".question"))
+    document.querySelector(".question").remove();
   var answers = document.querySelectorAll(".answer-btn");
   for (var i = 0; i < answers.length; i++) {
     answers[i].remove();
@@ -142,10 +144,11 @@ function clearQuestionArea() {
 function createEndScreen() {
   var allDoneText = document.createElement("h2");
   allDoneText.textContent = "All done!";
+  allDoneText.style.marginBottom = "10px";
   quizArea.appendChild(allDoneText);
 
   var displayScore = document.createElement("p");
-  displayScore.textContent = `Your score is ${score}`;
+  displayScore.textContent = `Your final score is ${score}`;
   quizArea.appendChild(displayScore);
 
   var submitScore = document.createElement("form");
@@ -157,6 +160,8 @@ function createEndScreen() {
 
   var inputInitials = document.createElement("input");
   inputInitials.setAttribute("type", "text");
+  inputInitials.style.marginLeft = "5px";
+  inputInitials.style.marginRight = "10px";
   submitScore.appendChild(inputInitials);
 
   var submitBtn = document.createElement("button");
@@ -166,6 +171,14 @@ function createEndScreen() {
 
   submitBtn.addEventListener("click", function (e) {
     e.preventDefault();
+
+    var areValidInitials = verifyInitials(inputInitials.value); // check if valid initials
+
+    if (!areValidInitials) {
+      alert("Please enter valid initials");
+      inputInitials.value = "";
+      return;
+    }
 
     // create new saved score object
     var savedScore = {
@@ -188,26 +201,56 @@ function createEndScreen() {
   });
 }
 
+function verifyInitials(initials) {
+  if (initials.length === 2 && initials.match(/[a-z]/i)) return true;
+  else return false;
+}
+
 function displayHighScores() {
   // check to see if high scores are already displayed
   if (highScoresDisplayed === true) return;
 
+  // remove result if present
+  if (document.querySelector(".result"))
+    document.querySelector(".result").remove();
+
   scores = JSON.parse(localStorage.getItem("savedScores"));
 
   // sort scores
-  sortedScores = scores.sort((a, b) => (a.myScore > b.myScore ? 1 : -1));
+  if (scores)
+    var sortedScores = scores.sort((a, b) => (a.myScore < b.myScore ? 1 : -1));
 
   var highScoresTitle = document.createElement("h2");
   highScoresTitle.textContent = "High Scores";
   quizArea.appendChild(highScoresTitle);
-  for (var i = 0; i < sortedScores.length; i++) {
-    var scoreListItem = document.createElement("p");
-    scoreListItem.textContent = `${i + 1}.  ${sortedScores[i].initials} --  ${
-      sortedScores[i].myScore
-    }`;
-    quizArea.appendChild(scoreListItem);
+
+  if (sortedScores) {
+    for (var i = 0; i < sortedScores.length; i++) {
+      var scoreListItem = document.createElement("p");
+      scoreListItem.classList.add("score");
+      scoreListItem.textContent = `${i + 1}.  ${sortedScores[i].initials} --  ${
+        sortedScores[i].myScore
+      }`;
+      quizArea.appendChild(scoreListItem);
+    }
   }
+
   highScoresDisplayed = true;
+
+  var goBack = document.createElement("button");
+  goBack.textContent = "Go back";
+  quizArea.appendChild(goBack);
+  goBack.addEventListener("click", function () {
+    window.location.reload();
+  });
+
+  var clearHighScores = document.createElement("button");
+  clearHighScores.textContent = "Clear high scores";
+  quizArea.appendChild(clearHighScores);
+  clearHighScores.addEventListener("click", function () {
+    localStorage.clear();
+    displayHighScores();
+  });
 }
 
 startButton.addEventListener("click", generateQuestion);
@@ -220,4 +263,3 @@ viewHighScores.addEventListener("click", function () {
   }
   displayHighScores();
 });
-// localStorage.clear();

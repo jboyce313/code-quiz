@@ -34,10 +34,9 @@ button {
 .score {
   padding: 5px;
   font-size: 20px;
-  background-color: white;
+  background-color: rgb(214, 190, 235);
   color: black;
   border-radius: 5px;
-  border: 2px solid var(--main);
   margin-top: 5px;
 }
 

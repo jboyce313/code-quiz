@@ -249,7 +249,11 @@ function displayHighScores() {
   quizArea.appendChild(clearHighScores);
   clearHighScores.addEventListener("click", function () {
     localStorage.clear();
-    displayHighScores();
+    // highScoresDisplayed = false;
+    var listItems = document.querySelectorAll(".score");
+    for (var i = 0; i < listItems.length; i++) {
+      listItems[i].classList.add("hidden");
+    }
   });
 }
 
